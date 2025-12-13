@@ -1,4 +1,14 @@
-FROM ubuntu:latest
+FROM node:24-alpine
 LABEL authors="ravinder"
 
-ENTRYPOINT ["top", "-b"]
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start" ]
