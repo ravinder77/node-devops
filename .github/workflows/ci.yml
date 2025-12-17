@@ -1,18 +1,26 @@
 on:
-  push:
-    branches:
-      - "main"
-      - "dev"
-  pull_request:
-    branches:
-      - "main"
-      - "dev"
+  workflow_dispatch:
+#  push:
+#    branches:
+#      - "main"
+#      - "dev"
+#  pull_request:
+#    branches:
+#      - "main"
+#      - "dev"
 jobs:
   echo:
     runs-on: ubuntu-latest
     steps:
       - name: show the trigger
         run: echo "I have been triggered by ${{github.event_name}}"
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: printing folders
+        run: ls
 
 
 
