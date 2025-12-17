@@ -3,6 +3,9 @@ on: workflow_dispatch
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: node-devops
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -12,6 +15,8 @@ jobs:
           node-version: 24
       - name: Install dependencies
         run: npm ci
+
+
 
 
 
