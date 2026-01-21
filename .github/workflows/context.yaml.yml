@@ -1,0 +1,19 @@
+name: context.yaml
+on: workflow_dispatch
+
+jobs:
+  echo-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display Information
+        run: |
+          echo "Event name: ${{github.event_name}}"
+          echo "Ref: ${{github.ref}}"
+          echo "SHA: ${{github.sha}}"
+          echo "Actor: ${{gitub.actor}}"
+          echo "Workflow: ${{github.workflow}}"
+          echo "Run Id: ${{github.run_id}}
+          echo "Run Number: ${{github.run_number}}
+      - name: Retrieve Vars
+        run: |
+          echo "Variable name ${{vars.MY_VAR}}"
