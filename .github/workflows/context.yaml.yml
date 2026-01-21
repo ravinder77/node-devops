@@ -10,7 +10,7 @@ jobs:
           echo "Event name: ${{github.event_name}}"
           echo "Ref: ${{github.ref}}"
           echo "SHA: ${{github.sha}}"
-          echo "Actor: ${{gitub.actor}}"
+          echo "Actor: ${{github.actor}}"
           echo "Workflow: ${{github.workflow}}"
           echo "Run Id: ${{github.run_id}}
           echo "Run Number: ${{github.run_number}}
