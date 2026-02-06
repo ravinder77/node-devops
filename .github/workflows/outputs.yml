@@ -1,0 +1,18 @@
+name: outputs.yml
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{steps.get_version.outputs.version}}
+    steps:
+      - name: Generate Version
+        id: get_version
+        run: echo "version=1.2.3" >> $GITHUB_OUTPUT
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - run: |
+         echo "version from build: ${{needs.build.outputs.version}}"
