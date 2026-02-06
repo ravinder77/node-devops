@@ -34,9 +34,10 @@ jobs:
         run: echo "Building from tag ${{inputs.tag}}"
   deploy:
     runs-on: ubuntu-latest
+    if: ${{!inputs.dry-run}}
+    environment: ${{inputs.environment}}
     steps:
-      - name: environment
-        run: echo "Deploying to environment ${{inputs.environment}}"
-      - name: Debug mode
-        run: echo "Debug mode is ${{github.event.inputs.debug}}"
+      - run:  echo "Deploying to environment ${{inputs.environment}}"
+      - run: echo "Debug mode is ${{github.event.inputs.debug}}"
+
 
