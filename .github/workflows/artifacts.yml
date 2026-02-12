@@ -1,4 +1,56 @@
 name: artifacts.yml
 on:
+  workflow_dispatch:
+    inputs:
+      deploy:
+        type: boolean
+        description: deploy desciption
+        default: false
+      environment:
+        type: choice
+        description: deploy to environment
+        options: [staging, production]
+        default: staging
 
 jobs:
+  ci:
+    name: Test & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v5
+
+      - name: Setup node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: app-build
+          path: dist/
+
+  deploy:
+    name: Deploy
+    needs: ci
+    if: inputs.deploy
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v6
+        with:
+          name: app-build
+
+      - name: Deploy application
+        run: ./deploy.sh dist/
+
