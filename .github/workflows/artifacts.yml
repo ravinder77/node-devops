@@ -1,0 +1,4 @@
+name: artifacts.yml
+on:
+
+jobs:

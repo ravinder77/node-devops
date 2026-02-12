@@ -1,26 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: node-app
+  name: node-backend
   labels:
-    app: title
+    app: node-backend
 spec:
-  replicas: 1
+  replicas: 2
+  revisionHistoryLimit: 5
   selector:
     matchLabels:
-      app: title
+      app: node-backend
   template:
     metadata:
-      name: title
       labels:
-        app: title
+        app: node-backend
     spec:
+      terminationGracePeriodSeconds: 30
       containers:
-        - name: title
-          image: nginx
+        - name: node-backend
+          image: ravinder50300/node-app:1.0.0
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
-              protocol: TCP
-      restartPolicy: Always
-      
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          readinessProbe:
+            httpGet:
+              port: 3000
+              path: /health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              port: 3000
+              path: /health
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 2
+            failureThreshold: 3
